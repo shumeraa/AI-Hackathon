@@ -1,5 +1,3 @@
-# SWE-Project
-
 ## Start the backend
 1. cd to server
 2. create a .env file
