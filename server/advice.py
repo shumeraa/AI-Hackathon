@@ -162,8 +162,8 @@ def my_deployable_chain_function( params=ai_params ):
     def format_input(messages, documents):
         grounding = "\n".join(documents)
         system = f"""<|system|>
-        Produce a list only. The text provided supporting a victim of a natural disaster, explain what the text can do better in a list of three bullet points and output NOTHING ELSE. Do not ask for additional information.
-"""
+                Explain how to improve the user text. Use mental health techniques. Only output a list and no other text. Only give advice on how to seem more professional. Keep exactly three suggestions. This means three sentences only. Do not do anymore. Do not ask any questions back, you only give advice. You must give advice but only three suggestions total.
+        """
         messages_section = []
 
         for index,value in enumerate(messages, start=0):
@@ -188,8 +188,8 @@ def my_deployable_chain_function( params=ai_params ):
             messages_section.append(formatted_entry)
 
         messages_section = "".join(messages_section)
-        prompt = f"""{system}{messages_section}<|assistant|>
-"""
+        prompt = f"""{system}{messages_section}<|assistant|> Only output a short list. You only give advice and nothing else. This list is advice related to helping a victim overcome a natural disaster. Provide advice that improves what the user said.Do not ask any questions back, you only give advice. You must give three sugesstions on how to be a better volunteer and nothing else.
+        """
         return prompt
     
     def inference_model( messages, documents, access_token ):
