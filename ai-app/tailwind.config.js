@@ -12,6 +12,7 @@ module.exports = {
         primaryPurple: '#3D2A3E', //For background
         secondaryPurple: '#4D3A4E',
         tertiaryPurple: '#472F47',
+        quaternaryPurple: '#815B83',
       },
     },
   },
