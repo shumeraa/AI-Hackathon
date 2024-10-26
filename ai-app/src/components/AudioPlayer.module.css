@@ -14,6 +14,10 @@
   font-size: 16px;
 }
 
+.playPauseBtn:hover {
+  background-color: #6a466d; /* Darker shade on hover */
+}
+
 .bars {
   display: flex;
   gap: 4px;
@@ -27,6 +31,10 @@
   transition: height 0.2s;
   animation: bounce 1s infinite ease-in-out;
   animation-play-state: paused;
+}
+
+.audioPlayer:hover .audioPlayer{
+  background-color: #FFD700; /* Change bar color to gold on hover */
 }
 
 /* Animate bars */
