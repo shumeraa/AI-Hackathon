@@ -5,7 +5,7 @@ from openai import OpenAI
 import requests
 from dotenv import load_dotenv
 import base64
-import time
+from prompts import SYSTEM_PROMPT_1, SYSTEM_PROMPT_2, SYSTEM_PROMPT_3
 
 app = Flask(__name__)
 load_dotenv()
@@ -17,6 +17,13 @@ PROJECT_KEY = os.getenv("PROJECT_KEY")
 
 # Configure OpenAI API
 client = OpenAI(api_key=OPENAI_API_KEY)
+
+# Map prompt_id to the corresponding system prompt
+system_prompts = {
+    "1": [SYSTEM_PROMPT_1, "onyx"],
+    "2": [SYSTEM_PROMPT_2, "nova"],
+    "3": [SYSTEM_PROMPT_3, "fable"],
+}
 
 
 def get_ibm_auth_token(api_key):
@@ -31,13 +38,19 @@ def get_ibm_auth_token(api_key):
     return response.json().get("access_token")
 
 
-@app.route("/process_audio_hurricane", methods=["POST"])
+@app.route("/process_audio", methods=["POST"])
 def process_audio():
     if "file" not in request.files:
         return jsonify({"error": "No audio file provided"}), 400
     file = request.files["file"]
     if file.filename == "":
         return jsonify({"error": "Empty filename"}), 400
+
+    # Get the prompt ID from the request
+    prompt_id = request.form.get("prompt_id", "1")  # Default to '1' if not provided
+    
+    voice = system_prompts[prompt_id][1]
+    system_prompt = system_prompts[prompt_id][0]
 
     # Save the uploaded audio file to a temporary file
     with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_file:
@@ -60,9 +73,8 @@ def process_audio():
         )
         body = {
             "input": f"""<|system|>
-You are a young adult man, with a pet who you love. A hurricane has just hit the city you live in. Play the role of this man who was impacted by the hurricane. Act like a real person who has been affected. You may discuss your feelings, concerns, or mental health support. You should realistically portray common mental health challenges that people experience after natural disasters, such as anxiety, stress, trauma, grief, or uncertainty about the future. Ask the user a question that they can answer back to you. Be consise in your response.
-DO NOT act overly dramatic or unrealistic. ONLY write TWO sentences and not any more or less, and pose a question at the end about how to feel better.
-Here is an example, but do not copy it exactly: “I'm doing my best to stay positive, but it's been tough without power and water for a few days. Do you have any tips for managing anxiety during times of crisis like this?”. Say something similar.
+{system_prompt}
+<|system|>
 <|user|>
 {transcribed_text}
 <|user|>""",
@@ -96,7 +108,7 @@ Here is an example, but do not copy it exactly: “I'm doing my best to stay pos
         # Generate TTS audio from the generated text
         with client.audio.speech.with_streaming_response.create(
             model="tts-1",
-            voice="onyx",
+            voice=voice,
             input=generated_text,
         ) as response:
             response.stream_to_file(temp_audio_file)

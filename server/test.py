@@ -5,13 +5,16 @@ import base64
 url = 'http://localhost:5000/process_audio'
 
 # Path to your audio file
-audio_file_path = r'C:\Users\shume\Documents\GitHub\AI-Hackathon\server\Recording.mp3'
+#audio_file_path = r'C:\Users\shume\Documents\GitHub\AI-Hackathon\server\howAreYou.mp3'
+audio_file_path = r'C:\Users\shume\Documents\GitHub\AI-Hackathon\server\oneStepAtATime.mp3'
+
 
 # Open the audio file in binary mode
 with open(audio_file_path, 'rb') as f:
     files = {'file': f}
-    # Send a POST request with the file
-    response = requests.post(url, files=files)
+    data = {'prompt_id': '1'}  # Change '1' to '2' or '3' to select different system prompts
+    # Send a POST request with the file and prompt_id
+    response = requests.post(url, files=files, data=data)
 
 # Check if the request was successful
 if response.status_code == 200:
