@@ -3,22 +3,21 @@ import logo from './logo.svg';
 import Button from './components/Button.js';
 import AudioPlayer from './components/AudioPlayer';
 import Sally from './assets/sally.png';
+import ChatBotMessage from './components/ChatBotMessage.js';
+import UserMessage from './components/UserMessage.js';
 
 function ChatPage() {
   const handleSend = () => {
     // Placeholder function 
   };
 
+  const [feedbackMessage, setFeedbackMessage] = useState("Click on one of the feedback buttons under your messages to see AI feedback!");
 
-  // Set Component A (Response) position
-  const componentARef = useRef(null);
-  const [componentAPosition, setComponentAPosition] = useState(0);
-  
+  const handleShowFeedback = (message, source) => {
+    setFeedbackMessage(message);
+  };
+
   useEffect(() => {
-    if (componentARef.current) {
-      const rect = componentARef.current.getBoundingClientRect();
-      setComponentAPosition(rect.top);
-    }
   }, []);
 
   return (
@@ -40,62 +39,30 @@ function ChatPage() {
             <div className="text-2xl">Sally Earthquake</div>
           </div>
 
-          <div className="flex flex-col space-y-4">
-            <div className="flex items-center space-x-2">
-              <img
-                src={Sally}
-                alt="Sally Earthquake"
-                className="w-10 h-10 rounded-full"
-              />
-              <div className="bg-secondaryPurple px-4 py-2 rounded-full">
-                hello :( my house was destroyed
-              </div>
-            </div>
-            <AudioPlayer src="/path-to-audio-file.mp3" />
+          <div className="flex flex-col space-y-4"> 
+            <ChatBotMessage
+              message="hello :( my house was destroyed lol"
+              audioSrc="/path-to-audio-file.mp3"
+            />
 
-            {/* Component A: Response Message */}
-            <div className="flex justify-end">
-              <div
-                ref={componentARef}
-                className="bg-secondaryPurple px-4 py-2 rounded-full"
-              >
-                I am sorry about that
-              </div>
-            </div>
+            <UserMessage
+              message="I am sorry about that"
+              feedback="Though your response demonstrates empathy, your response could have been more specific to their situation and detailed."
+              onShowFeedback={handleShowFeedback}
+            />
 
-            {/* Component B: Feedback Message */}
-            <div
-              className="absolute bg-secondaryPurple p-4 rounded-lg mr-4"
-              style={{
-                left: '75%', // Adjust this value as needed
-                top: `${componentAPosition}px`,
-              }}
-            >
-              <div className="flex items-start space-x-2">
-                <span className="w-2 h-2 bg-white rounded-full mt-1 "></span>
-                <p className="text-sm">
-                  Though your response demonstrates empathy, your response could have been more specific to their situation and detailed.
-                </p>
-              </div>
-            </div>
+                        
+            <ChatBotMessage
+              message="hello :( my house was destroyed lol blah blah blah blah blah"
+              audioSrc="/path-to-audio-file.mp3"
+            />
 
-            <div className="flex items-center space-x-2">
-              <img
-                src={Sally}
-                alt="Sally Earthquake"
-                className="w-10 h-10 rounded-full"
-              />
-              <div className="bg-secondaryPurple px-4 py-2 rounded-full">
-                hello :( my house was destroyed blah blah blah blah blah blah blah
-              </div>
-            </div>            
-            <AudioPlayer src="/path-to-audio-file.mp3" />
+            <UserMessage
+              message="I am sorry about that"
+              feedback="Though your response demonstrates empathy, your response could have been more specific to their situation and detailed. LOL"
+              onShowFeedback={handleShowFeedback}
+            />
 
-            <div className="flex justify-end">
-              <div className="bg-secondaryPurple px-4 py-2 rounded-full">
-                I am sorry about that
-              </div>
-            </div>
           </div>
 
           <div className="flex items-center mt-auto space-x-4">
@@ -112,7 +79,16 @@ function ChatPage() {
 
         {/* Feedback Section */}
         <div className="w-1/4 bg-secondaryPurple p-6 flex flex-col rounded-lg m-4">
-          <h2 className="text-xl font-bold my-4">Your AI Feedback</h2>
+          <h2 className="text-xl font-bold my-4">Your AI Feedback</h2>          
+
+          <div className="text-sm space-y-2">
+            <div className="flex items-start space-x-2">
+              <span className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></span>
+              <p>
+                {feedbackMessage}
+              </p>
+            </div>
+          </div>
 
           <button className="bg-red-600 text-white py-2 mt-auto rounded-full">
             End Conversation
