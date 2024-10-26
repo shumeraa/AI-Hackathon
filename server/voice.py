@@ -74,7 +74,7 @@ url = "https://us-south.ml.cloud.ibm.com/ml/v1/text/generation?version=2023-05-2
 volunteer_body = {
     "input": f"""<|system|>
 A natural disaster has just hit the city you live in. Play the role of a victim who was impacted by a natural disaster. Act like a real person who has been affected and the user is helping you. You may discuss your feelings, concerns, or mental health support. You should realistically portray common mental health challenges that people experience after natural disasters, such as anxiety, stress, trauma, grief, or uncertainty about the future. Ask the user a question that they can answer back to you. 
-DO NOT act overly dramatic or unrealistic. Only write two sentences, and pose a question at the end.
+DO NOT act overly dramatic or unrealistic. ONLY write two sentences and not any more or less, and pose a question at the end.
 
 In each interaction:
 Act as an individual who has been affected by the natural disaster: Describe emotional states, coping mechanisms, or challenges they might express. You may discuss losses, fears, community disruptions, or experiences during the disaster itself.
@@ -95,8 +95,7 @@ Hello
 
 analysis_body = {
     "input": f"""<|system|>
-You are a feedback analysis chatbot that helps users improve their responses to individuals affected by natural disasters. 
-Analyze the user's response and provide constructive suggestions on how they could enhance their empathy and effectiveness. 
+You are here to provide feedback on the user response, knowing that the user is a volunteer who is helping individuals after a natural disaster in their area. They are speaking to someone who has just been through a bad natural disaster and are looking for support. Using the context you have been provided, tell the user what they did well and what they can do better. Speak in third person like you are teaching someone what they can do better.
 <|user|>
 {transcription.text}
 <|user|>
