@@ -6,8 +6,11 @@ import requests
 from dotenv import load_dotenv
 import base64
 from prompts import SYSTEM_PROMPT_1, SYSTEM_PROMPT_2, SYSTEM_PROMPT_3
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+CORS(app)
 load_dotenv()
 
 # Load API keys from environment variables
@@ -48,7 +51,7 @@ def process_audio():
 
     # Get the prompt ID from the request
     prompt_id = request.form.get("prompt_id", "1")  # Default to '1' if not provided
-    
+
     voice = system_prompts[prompt_id][1]
     system_prompt = system_prompts[prompt_id][0]
 
@@ -101,9 +104,7 @@ def process_audio():
         data = response.json()
         generated_text = data["results"][0]["generated_text"]
 
-        temp_audio_file = (
-            r"C:\Users\shume\Documents\GitHub\AI-Hackathon\server\response_audio.mp3"
-        )
+        temp_audio_file = r".\response_audio.mp3"
 
         # Generate TTS audio from the generated text
         with client.audio.speech.with_streaming_response.create(
@@ -120,7 +121,16 @@ def process_audio():
         audio_base64 = base64.b64encode(audio_data).decode("utf-8")
 
         # Return the generated text and the audio data
-        return jsonify({"response": generated_text, "audio": audio_base64}), 200
+        return (
+            jsonify(
+                {
+                    "transcription": transcribed_text,
+                    "response": generated_text,
+                    "audio": audio_base64,
+                }
+            ),
+            200,
+        )
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
