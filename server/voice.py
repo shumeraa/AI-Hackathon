@@ -5,8 +5,12 @@ import tempfile
 import wavio
 from pathlib import Path
 from openai import OpenAI
-from dotenv import load_dotenv
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
+project_key = os.getenv('PROJECT_KEY')
+
 
 def get_auth_token(api_key):
     import requests
@@ -30,8 +34,6 @@ def get_auth_token(api_key):
     else:
         raise Exception("Failed to get authentication token")
 
-# Load environment variables from .env file
-load_dotenv()
 
 # Record audio from the microphone
 duration = 5  # Duration in seconds
@@ -93,7 +95,7 @@ Hello
         "repetition_penalty": 1.05
     },
     "model_id": "ibm/granite-13b-chat-v2",
-    "project_id": "bcc8344b-55d3-4764-acf0-7d40998edc87"
+    "project_id": project_key
 }
 
 api_key = os.getenv('IBM_API_KEY')
