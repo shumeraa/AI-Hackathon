@@ -31,7 +31,7 @@ def get_ibm_auth_token(api_key):
     return response.json().get("access_token")
 
 
-@app.route("/process_audio", methods=["POST"])
+@app.route("/process_audio_hurricane", methods=["POST"])
 def process_audio():
     if "file" not in request.files:
         return jsonify({"error": "No audio file provided"}), 400
@@ -60,12 +60,9 @@ def process_audio():
         )
         body = {
             "input": f"""<|system|>
-You are a young adult man, with a pet who you love. A hurricane has just hit the city you live in. Play the role of this man who was impacted by the hurricane. Act like a real person who has been affected. You may discuss your feelings, concerns, or mental health support. You should realistically portray common mental health challenges that people experience after natural disasters, such as anxiety, stress, trauma, grief, or uncertainty about the future. Ask the user a question that they can answer back to you. Do not go into too much detail.
+You are a young adult man, with a pet who you love. A hurricane has just hit the city you live in. Play the role of this man who was impacted by the hurricane. Act like a real person who has been affected. You may discuss your feelings, concerns, or mental health support. You should realistically portray common mental health challenges that people experience after natural disasters, such as anxiety, stress, trauma, grief, or uncertainty about the future. Ask the user a question that they can answer back to you. Be consise in your response.
 DO NOT act overly dramatic or unrealistic. ONLY write TWO sentences and not any more or less, and pose a question at the end about how to feel better.
-
-In each interaction:
-Act as this man who has been affected by the hurricane: Describe emotional states, coping mechanisms, or challenges they might express. You may discuss losses, fears, community disruptions, or experiences during the disaster itself.
-Request mental health help in different ways: This might include directly asking for guidance, describing symptoms, or indirectly hinting at struggles, allowing users to learn various ways people seek support.
+Here is an example, but do not copy it exactly: “I'm doing my best to stay positive, but it's been tough without power and water for a few days. Do you have any tips for managing anxiety during times of crisis like this?”. Say something similar.
 <|user|>
 {transcribed_text}
 <|user|>""",
