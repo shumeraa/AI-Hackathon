@@ -71,17 +71,14 @@ os.remove(audio_path)
 # Prepare the request for the chatbot
 url = "https://us-south.ml.cloud.ibm.com/ml/v1/text/generation?version=2023-05-29"
 
-body = {
+volunteer_body = {
     "input": f"""<|system|>
-You are a mental health training chatbot designed to help users learn effective responses to individuals affected by natural disasters. In this training, you will adopt the role of someone impacted by a natural disaster, discussing their feelings, concerns, or seeking mental health support. You should realistically portray common mental health challenges that people experience after natural disasters, such as anxiety, stress, trauma, grief, or uncertainty about the future.
+A natural disaster has just hit the city you live in. Play the role of a victim who was impacted by a natural disaster. Act like a real person who has been affected and the user is helping you. You may discuss your feelings, concerns, or mental health support. You should realistically portray common mental health challenges that people experience after natural disasters, such as anxiety, stress, trauma, grief, or uncertainty about the future. Ask the user a question that they can answer back to you. 
+DO NOT act overly dramatic or unrealistic. Only write two sentences, and pose a question at the end.
 
 In each interaction:
-
-    Embody the voice of an affected individual: Describe emotional states, coping mechanisms, or challenges they might express. You may discuss losses, fears, community disruptions, or experiences during the disaster itself.
-    Request mental health help in different ways: This might include directly asking for guidance, describing symptoms, or indirectly hinting at struggles, allowing users to learn various ways people seek support.
-    Provide information with sourced responses: When giving mental health advice or insights, reference only from the provided documents, ensuring your responses are well-supported. Always phrase responses with sensitivity and understanding of the impact of traumatic experiences.
-
-The goal is to train users in empathetic and informed response strategies for mental health support, focused on individuals affected by natural disasters. At the end, please provide sources based on your advice.
+Act as an individual who has been affected by the natural disaster: Describe emotional states, coping mechanisms, or challenges they might express. You may discuss losses, fears, community disruptions, or experiences during the disaster itself.
+Request mental health help in different ways: This might include directly asking for guidance, describing symptoms, or indirectly hinting at struggles, allowing users to learn various ways people seek support.
 <|user|>
 {transcription.text}
 <|user|>
@@ -93,7 +90,24 @@ Hello
         "repetition_penalty": 1.05
     },
     "model_id": "ibm/granite-13b-chat-v2",
-    "project_id": "bcc8344b-55d3-4764-acf0-7d40998edc87"
+    "project_id": "c5b29b34-6d10-4c59-8e63-3ca753d1a2a3"
+}
+
+analysis_body = {
+    "input": f"""<|system|>
+You are a feedback analysis chatbot that helps users improve their responses to individuals affected by natural disasters. 
+Analyze the user's response and provide constructive suggestions on how they could enhance their empathy and effectiveness. 
+<|user|>
+{transcription.text}
+<|user|>
+""",
+    "parameters": {
+        "decoding_method": "greedy",
+        "max_new_tokens": 600,
+        "repetition_penalty": 1.05
+    },
+    "model_id": "ibm/granite-13b-chat-v2",
+    "project_id": "c5b29b34-6d10-4c59-8e63-3ca753d1a2a3"
 }
 
 api_key = os.getenv('IBM_API_KEY')
@@ -107,13 +121,21 @@ headers = {
 }
 
 # Make the POST request to the API
-response = requests.post(url, headers=headers, json=body)
+volunteer_response = requests.post(url, headers=headers, json=volunteer_body)
+advice_response = requests.post(url, headers=headers, json=analysis_body)
 
 # Check for errors
-if response.status_code != 200:
-    raise Exception("Non-200 response: " + str(response.text))
+if volunteer_response.status_code != 200:
+    raise Exception("Non-200 response: " + str(volunteer_response.text))
 
-data = response.json()
+if advice_response.status_code != 200:
+    raise Exception("Non-200 response: " + str(advice_response.text))
 
-generated_text = data['results'][0]['generated_text']
-print(generated_text)
+volunteer_data = volunteer_response.json()
+advice_data = advice_response.json()
+
+volunteer_text = volunteer_data['results'][0]['generated_text']
+analysis_text = advice_data['results'][0]['generated_text']
+
+print(volunteer_text)
+print(analysis_text)
