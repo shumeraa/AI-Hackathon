@@ -106,7 +106,7 @@ function ChatPage() {
       <div className="h-screen bg-primaryPurple text-white flex">
 
         {/* Chat Section */}
-        <div className="mt-4 flex flex-col w-3/4 p-8">
+        <div className="mt-4 flex flex-col w-3/4 py-8 pl-4 pr-16 ">
           <div className="mx-auto flex-col items-center mb-6">
             <img
               src={Sally}
@@ -134,21 +134,23 @@ function ChatPage() {
               )
             )}
           </div>
-
-          <div className="flex items-center mt-auto space-x-4">
-            <input
-              type="text"
-              placeholder="Message Sally..."
-              className="bg-secondaryPurple w-full p-4 rounded-full focus:outline-none"
-            />
-            <button onClick={handleMicClick} className="bg-secondaryPurple p-3 rounded-full">
-              {isRecording ? '⏹️' : '🎤'}
-            </button>
+          <div className="mt-auto">
+            <div className="flex items-center mt-4 space-x-4">
+              <input
+                type="text"
+                placeholder="Message Sally..."
+                className="bg-secondaryPurple w-full p-4 rounded-full focus:outline-none"
+              />
+              <button onClick={handleMicClick} className="bg-secondaryPurple p-3 rounded-full">
+                {isRecording ? '⏹️' : '🎤'}
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Feedback Section */}
-        <div className="w-1/4 bg-secondaryPurple p-6 flex flex-col rounded-lg m-4 sticky top-0 h-fit">
+        <div className="w-1/4 bg-secondaryPurple p-6 flex my-2 flex-col rounded-lg sticky top-0 left" 
+          style={{ position: "fixed", height: "97%", left: "73%", width: "26%"}} >
           <h2 className="text-xl font-bold my-4">Your AI Feedback</h2>          
 
           <div className="text-sm space-y-2">
@@ -156,10 +158,10 @@ function ChatPage() {
               <span className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></span>
               <p>{feedbackMessage}</p>
             </div>
-          </div>
-            <p className="text-xs text-purple-400">
+            <p className="text-xs text-purple-400 ml-4">
               Source: Natural Disaster Guide p. 6, p. 17
             </p>
+          </div>
 
           <button className="bg-red-600 text-white py-2 mt-auto rounded-full">
             End Conversation
