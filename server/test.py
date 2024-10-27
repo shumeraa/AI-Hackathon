@@ -6,7 +6,7 @@ url = 'http://localhost:5000/process_audio'
 
 # Path to your audio file
 #audio_file_path = r'C:\Users\shume\Documents\GitHub\AI-Hackathon\server\howAreYou.mp3'
-audio_file_path = r'C:\Users\shume\Documents\GitHub\AI-Hackathon\server\oneStepAtATime.mp3'
+audio_file_path = r'C:\Users\dsing\Downloads\Recording.mp3'
 
 
 # Open the audio file in binary mode
@@ -33,6 +33,13 @@ if response.status_code == 200:
     # Save the audio data to a file
     with open('response_audio.mp3', 'wb') as audio_file:
         audio_file.write(audio_data)
+
+    #Print advice
+    print("Advice:", data.get('advice_response'))
+
+    #Print sources
+    print("Sources:", data.get('sources'))
+    
 
     print("Audio file saved as response_audio.mp3")
 else:
