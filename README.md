@@ -29,3 +29,4 @@
 
 ## Things to remember:
 - The .gitignore already has a lot of files ignored in it, but double check you do not push any files you do not want on the repo
+- If there are any issues when running npm, perform npm audit fix --force to fix any dependency issues
