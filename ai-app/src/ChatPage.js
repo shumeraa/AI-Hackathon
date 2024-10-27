@@ -5,6 +5,9 @@ import AudioPlayer from './components/AudioPlayer';
 import ChatBotMessage from './components/ChatBotMessage';
 import UserMessage from './components/UserMessage';
 
+import socialSupportPdf from './files/Social Support for Natural Disasters.pdf';
+import parentSupportPdf from './files/Parental Assistance Coping.pdf';
+
 function ChatPage() {
   const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
@@ -12,10 +15,32 @@ function ChatPage() {
   const [messages, setMessages] = useState([
     { who: 'LLM', text: 'Hi I am Elma! I could really use some help right now.', audioSrc: null }
   ]);
+  const [advice_response, setAdviceResponse] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [sources, setSources] = useState("");
 
-  const handleShowFeedback = (message) => {
-    setFeedbackMessage(message);
+  const sourceLinks = {
+    "Social Support for Natural Disasters": socialSupportPdf,
+    "Parental Assistance Coping": parentSupportPdf
   };
+
+  const handleShowFeedback = (messageFeedback) => {
+    const formattedSuggestions = messageFeedback
+      .split(/(?=\d+\.\s)/)
+      .filter(suggestion => suggestion.trim().match(/^\d+\./));
+    setSuggestions(formattedSuggestions);
+    setFeedbackMessage(messageFeedback);
+  };
+
+  const renderSuggestions = () => (
+    <div className="w-full sm-0">
+      {suggestions.map((suggestion, index) => (
+        <p key={index} className="text-white text-lg mb-2">
+          {suggestion.trim()}
+        </p>
+      ))}
+    </div>
+  );
 
   const handleMicClick = async () => {
     if (!isRecording) {
@@ -43,15 +68,26 @@ function ChatPage() {
 
             try {
               const response = await axios.post('http://localhost:5000/process_audio', formData);
-              const { transcription, response: backendText, audio: audioBase64 } = response.data;
+              const { transcription, response: backendText, audio: audioBase64, advice_response: advice_response, sources: sources } = response.data;
               const audioBlob = base64ToBlob(audioBase64, 'audio/wav');
               const audioUrl = URL.createObjectURL(audioBlob);
 
+              console.log(advice_response)
+
+              setAdviceResponse(advice_response);
+
               setMessages(prevMessages => [
                 ...prevMessages,
-                { who: 'user', text: transcription, audioSrc: userAudioUrl, feedback: "Though your response demonstrates empathy, your response could have been more specific to their situation and detailed." },
+                { who: 'user', text: transcription, audioSrc: userAudioUrl, feedback: advice_response, sources: sources },
                 { who: 'LLM', text: backendText, audioSrc: audioUrl }
               ]);
+
+              setSources(prevSources => {
+                const newSources = Array.isArray(sources) ? sources : [sources]; // Ensure sources is an array
+                return [...new Set([...prevSources, ...newSources])]; // Combine old and new sources, removing duplicates
+              });
+
+              console.log(sources);
 
               playAudio(audioUrl);
             } catch (error) {
@@ -79,6 +115,19 @@ function ChatPage() {
     }
   };
 
+  const renderSources = () => {
+    if(!sources) {
+      return null;
+    }
+    return sources.map((source, index) => (
+      <div key={index} className="text-xs text-purple-400 ml-4">
+        <a href={sourceLinks[source]} target="_blank" rel="noopener noreferrer">
+          {source}
+        </a>
+      </div>
+    ));
+  };
+
   const base64ToBlob = (base64, contentType) => {
     const byteCharacters = atob(base64);
     const byteArrays = [];
@@ -104,7 +153,6 @@ function ChatPage() {
       </div>
       {/* Parent Div */}
       <div className="h-screen bg-primaryPurple text-white flex">
-
         {/* Chat Section */}
         <div className="mt-4 flex flex-col w-3/4 py-8 pl-4 pr-16 ">
           <div className="mx-auto flex-col items-center mb-6">
@@ -154,12 +202,16 @@ function ChatPage() {
           <h2 className="text-xl font-bold my-4">Your AI Feedback</h2>          
 
           <div className="text-sm space-y-2">
-            <div className="flex items-start space-x-2">
-              <span className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></span>
-              <p>{feedbackMessage}</p>
-            </div>
+          {/* <div className="flex items-start space-x-2">
+            <p>{feedbackMessage}</p>
+          </div> */}
+          {renderSuggestions()}
             <p className="text-xs text-purple-400 ml-4">
-              Source will appear here
+            <div class="text-xs text-purple-400 ml-4" id="sources-container"></div>
+
+            <div>
+              {renderSources()}
+            </div>
             </p>
           </div>
 
