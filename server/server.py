@@ -62,6 +62,7 @@ def process_audio():
 
     voice = system_prompts[prompt_id][1]
     system_prompt = system_prompts[prompt_id][0]
+    system_prompt += " Never give advice back to the volunteer. You must act like a survivor and work with the volunteer to get advice. Continuously remember previous conversations and bring previous points up either from what you said or from what the volunteer said. Make sure everything you say is akin to casual conversation, so do not give advice. Example: Thank you for <advice>. I will <action> but <optional disagreement>. What do you think about <new topic>? End of example. Now, respond to the user in two sentences, ending with a question for mental health advice. Must be two sentences:"
 
     # Save the uploaded audio file to a temporary file
     with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_file:
@@ -299,8 +300,7 @@ def get_advice(transcribed_text):
         def format_input(messages, documents):
             grounding = "\n".join(documents)
             system = f"""<|system|>
-                         The input is from a medical professional in training to a victim of a natural disaster. Do not directly answer the input, but provide advice based on documents about how the medical professional (input) can improve. Be extremely direct and even harsh and critical at the medical proffesional. Create exactly three bullet points, each with a suggestion and a newline after each for formatting. Do not ask for additional information. Limit each suggestion to 15 words. Perform semantic analysis on the input and highlight any strong emotions that the medical professional may be protraying. Add newlines after each period. Example (Do not repeat this example but write answers in a similar style but more specifically about the topic from key words from the input): 1. The <noun similar to medical proffesional> can <verb> the conversation by <verb> specific issues the <similar terms to victim> is facing and <further suggestion>.
-
+                         The input is from a volunteer in training to a survivor of a natural disaster. Do not directly answer the input, but provide advice based on documents about how the volunteer (input) can improve. Be extremely direct and even harsh and critical at the volunteer. Create exactly three bullet points, each with a suggestion and a newline after each for formatting. Do not ask for additional information. Limit each suggestion to 15 words. Perform semantic analysis on the input and highlight any strong emotions that the volunteer may be protraying. Add newlines after each period. Example (Do not repeat this example but write answers in a similar style but more specifically about the topic from key words from the input): 1. The <noun similar to volunteer> can <verb> the conversation by <verb> specific issues the <similar terms to survivor> is facing and <further suggestion>.
                 """
             messages_section = []
 
@@ -326,7 +326,7 @@ def get_advice(transcribed_text):
                 messages_section.append(formatted_entry)
 
             messages_section = "".join(messages_section)
-            prompt = f"""{system}{messages_section}<|assistant|> Only output a short list. You only give advice relating closely to the topics they stated and nothing else. This list is advice related to helping the medical proffesional effectively talking to a victim who's goal is to overcome a natural disaster. Provide advice that improves what the medical proffesional said. Do not ask any questions back, you only give advice about what the medical professional can improve on when talking to the victim. You must give three sugesstions on how to be a better volunteer and nothing else.
+            prompt = f"""{system}{messages_section}<|assistant|> Only output a short list. You only give mental health advice relating closely to the topics they stated and nothing else. This list is advice related to helping the volunteer effectively talking to a survivor who's goal is to overcome a natural disaster. Provide advice that improves what the volunteer said. Do not ask any questions back, you only give advice about what the volunteer can improve on when talking to the survivor. You must give three sugesstions on how to be a better volunteer and nothing else.
     """
             return prompt
         
