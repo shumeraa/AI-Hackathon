@@ -14,7 +14,7 @@ BeHeal is the new AI-Powered platform built for volunteers to practice real-life
 9. Copy each ID and paste it into the .env (SPACE_ID should already be filled out so you do not have to touch it).
 10. For the project, copy its project ID and place it into PROJECT_KEY in the .env
 11. In the Dashboard for Watsonx, create a new API key and place that into IBM_API_KEY spot in the .env
-12. In an OpenAI account, create a new API key, add funds, and paste the key into OPENAI_API_KEY
+12. For the OPENAI_API_KEY, email dsingla@ufl.edu for the API key.
 
 ## Start the backend
 1. cd to server
