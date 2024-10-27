@@ -12,6 +12,8 @@ function ChatPage() {
   const [messages, setMessages] = useState([
     { who: 'LLM', text: 'Hi I am Sally! I could really use some help right now.', audioSrc: null }
   ]);
+  const [advice_response, setAdviceResponse] = useState("");
+  const [sources, setSources] = useState("");
 
   const handleShowFeedback = (message) => {
     setFeedbackMessage(message);
@@ -43,15 +45,19 @@ function ChatPage() {
 
             try {
               const response = await axios.post('http://localhost:5000/process_audio', formData);
-              const { transcription, response: backendText, audio: audioBase64 } = response.data;
+              const { transcription, response: backendText, audio: audioBase64, advice_response: advice_response, sources: sources } = response.data;
               const audioBlob = base64ToBlob(audioBase64, 'audio/wav');
               const audioUrl = URL.createObjectURL(audioBlob);
 
               setMessages(prevMessages => [
                 ...prevMessages,
-                { who: 'user', text: transcription, audioSrc: userAudioUrl, feedback: "Though your response demonstrates empathy, your response could have been more specific to their situation and detailed." },
+                { who: 'user', text: transcription, audioSrc: userAudioUrl, feedback: advice_response, sources: sources },
                 { who: 'LLM', text: backendText, audioSrc: audioUrl }
               ]);
+
+              setSources(Array.isArray(sources) ? sources : [sources]);
+
+              console.log(sources);
 
               playAudio(audioUrl);
             } catch (error) {
@@ -156,6 +162,14 @@ function ChatPage() {
               <span className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></span>
               <p>{feedbackMessage}</p>
             </div>
+            <p className="text-xs text-purple-400 ml-4">
+            <div class="text-xs text-purple-400 ml-4" id="sources-container"></div>
+
+            <div>
+              {sources.join(',')}
+            </div>
+
+            </p>
           </div>
 
           <button className="bg-red-600 text-white py-2 mt-auto rounded-full">
