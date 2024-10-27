@@ -1,3 +1,7 @@
+![image](https://github.com/user-attachments/assets/1dc59434-3fdd-4133-9361-225ccfbf5102)
+
+
+
 ## Setting up Watsonx and the .env file
 1. Log into Watsonx and create a new project
 2. Create a new vector index and upload the PDF files from the AI-Hackathon\files directory
