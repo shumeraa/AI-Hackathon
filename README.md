@@ -14,8 +14,7 @@
 
 ## Start the backend
 1. cd to server
-2. Use a conda environment and python 3.12.7 like this: conda create --name myenv python=3.12.7
-3. Once the environment has finished installing, perform this command to download all dependencies: conda create --name <myenv> --file requirements.txt
+2. Use a conda environment and python 3.12.7 like this (this will download all dependencies): conda create --name <myenv> --file requirements.txt python=3.12.7
 5. run the backend by simply running the python file server.py
 
 ## Start the frontend
