@@ -172,11 +172,16 @@ def get_advice(transcribed_text):
 
     client = APIClient(credentials)
 
-    space_id = "782a1780-68d6-47d7-a1bb-e2a1e9fc0334"
+    SPACE_ID = os.getenv("SPACE_ID")
+
+    space_id = SPACE_ID
     client.set.default_space(space_id)
 
+    VECTOR_INDEX_ID_1 = os.getenv("VECTOR_INDEX_ID_1")
+    VECTOR_INDEX_ID_2 = os.getenv("VECTOR_INDEX_ID_2")
+
     promoted_assets = {}
-    promoted_assets["vector_index_id"] = client.spaces.promote("9f91215c-4dff-4577-83f0-73ea2140ccb0", "bcc8344b-55d3-4764-acf0-7d40998edc87", "782a1780-68d6-47d7-a1bb-e2a1e9fc0334")
+    promoted_assets["vector_index_id"] = client.spaces.promote(VECTOR_INDEX_ID_1, VECTOR_INDEX_ID_2, SPACE_ID)
 
     import base64
     encoded_credentials = {
@@ -199,7 +204,7 @@ def get_advice(transcribed_text):
         }
 
         client = APIClient(wml_credentials)
-        space_id = "782a1780-68d6-47d7-a1bb-e2a1e9fc0334"
+        space_id = SPACE_ID
         client.set.default_space(space_id)
         
         vector_index_details = client.data_assets.get_details(params["promoted_assets"]["vector_index_id"])
