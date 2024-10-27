@@ -29,3 +29,8 @@ BeHeal is the new AI-Powered platform built for volunteers to practice real-life
 
 ## Things to remember:
 - If there are any issues when running npm, perform npm audit fix --force to fix any dependency issues
+
+## Credits:
+- Persona Avatars: Figma Material 3 Design Kit
+- Fonts: Google Lexend
+- Special Thanks to IBM and their watsonx generative AI platform for making this possible!
