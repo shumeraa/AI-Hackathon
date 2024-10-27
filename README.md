@@ -14,12 +14,9 @@
 
 ## Start the backend
 1. cd to server
-2. Then, start your virtual env in the same directory and install the dependencies:
-- For windows, this means type this in the command line:
-- python3 -m venv .venv
-- .venv\Scripts\activate
-- pip install -r requirements.txt
-3. run the backend
+2. Use a conda environment and python 3.12.7 like this: conda create --name myenv python=3.12.7
+3. Once the environment has finished installing, perform this command to download all dependencies: conda create --name <myenv> --file requirements.txt
+5. run the backend by simply running the python file server.py
 
 ## Start the frontend
 1. cd to ai-app
