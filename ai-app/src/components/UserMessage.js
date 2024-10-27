@@ -14,7 +14,7 @@ function UserMessage({ message, feedback, onShowFeedback}) {
       <div className="flex justify-end">
         <button
           onClick={() => onShowFeedback(feedback)}
-          className="text-blue-400 bg-tertiaryPurple px-3 py-1 text-xs rounded-full hover:bg-quaternaryPurple transition-colors"
+          className="text-blue-400 bg-tertiaryPurple px-3 py-1 text-xs rounded-[25px] hover:bg-quaternaryPurple transition-colors"
         >
           Feedback
         </button>

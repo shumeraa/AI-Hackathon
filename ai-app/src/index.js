@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import ChatPage from './ChatPage';
+import Personas from './Personas';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -12,6 +13,7 @@ root.render(
     <Routes>
       <Route path="/" element={<App />} />          {/* Landing page */}
       <Route path="/Chat" element={<ChatPage />} />   {/* Chat page */}
+      <Route path="/Personas" element={<Personas />} />   {/* Personas Page */}
     </Routes>
   </Router>
 );
