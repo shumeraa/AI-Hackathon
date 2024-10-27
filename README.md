@@ -19,7 +19,8 @@ BeHeal is the new AI-Powered platform built for volunteers to practice real-life
 ## Start the backend
 1. cd to server
 2. In Anaconda where the environment.yaml file is, perform: conda create --name envname python=3.12.7
-5. run the backend by simply running the python file server.py
+3. Then activate the environment by doing: conda activate envname
+5. Run the backend by simply running the python file server.py
 
 ## Start the frontend
 1. cd to ai-app
