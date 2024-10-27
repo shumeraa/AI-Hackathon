@@ -1,6 +1,6 @@
 ![image](https://github.com/user-attachments/assets/1dc59434-3fdd-4133-9361-225ccfbf5102)
 
-
+BeHeal is the new AI-Powered platform built for volunteers to practice real-life conversations with natural disaster survivors. Engage with lifelike personas, receive feedback on how your words impact survivors' mental well-being, and build skills to provide comfort and understanding when it’s needed most. Let's create a safer, more compassionate world together.
 
 ## Setting up Watsonx and the .env file
 1. Log into Watsonx and create a new project
