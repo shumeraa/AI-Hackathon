@@ -18,7 +18,7 @@ function App() {
           BeHeal
         </div>
         <div className="text-white text-sm pl-2 pt-10 mb-12 fade-in-top-2">
-          BeHeal is a new AI platform, where current and potential volunteers like you can interact with AI personas affected by Natural Disasters. Through these personas, BeHeal will provide feedback on how you can better respond to those afflicted by Natural Disasters, making them feel safe rather than intimidated or demeaned. Helping them to Be Healed.
+        BeHeal is the new AI-Powered platform built for volunteers to practice real-life conversations with natural disaster survivors. Engage with lifelike personas, receive feedback on how your words impact survivors' mental well-being, and build skills to provide comfort and understanding when it’s needed most. Let's create a safer, more compassionate world together.
         </div>
         <Button text="Get Started" link="/Personas" />
       </div>

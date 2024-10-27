@@ -4,9 +4,14 @@ import Elma from './assets/elma.png';
 import AudioPlayer from './components/AudioPlayer';
 import ChatBotMessage from './components/ChatBotMessage';
 import UserMessage from './components/UserMessage';
+import styles from './components/AudioPlayer.module.css';
 
-import socialSupportPdf from './files/Social Support for Natural Disasters.pdf';
-import parentSupportPdf from './files/Parental Assistance Coping.pdf';
+import socialSupportPdf from './files/Seeking Social Support by PFA (2018).pdf';
+import parentSupportPdf from './files/Parenting After a Natural Disaster by Hafstad et. al (2011).pdf';
+import copingSupportPdf from './files/Coping with Disaster by Ready.gov (2024).pdf';
+import friendSupportPdf from './files/How To Help A Friend Who Has Been Impacted by a natural disaster by Headspace.pdf'
+import emotionalSupportPdf from './files/Recovering emotionally from disaster by The APA (2013).pdf'
+import survivorSupportPdf from './files/Tips for Survivors of a Disaster or Other Traumatic Event by SAMHSA.pdf'
 
 function ChatPage() {
   const [isRecording, setIsRecording] = useState(false);
@@ -20,8 +25,12 @@ function ChatPage() {
   const [sources, setSources] = useState("");
 
   const sourceLinks = {
-    "Social Support for Natural Disasters": socialSupportPdf,
-    "Parental Assistance Coping": parentSupportPdf
+    'Seeking Social Support by PFA (2018)': socialSupportPdf,
+    'Parenting After a Natural Disaster by Hafstad et. al (2011)': parentSupportPdf,
+    'Coping with Disaster by Ready.gov (2024)': copingSupportPdf,
+    'How To Help A Friend Who Has Been Impacted by a natural disaster by Headspace': friendSupportPdf,
+    'Recovering emotionally from disaster by The APA (2013)': emotionalSupportPdf,
+    'Tips for Survivors of a Disaster or Other Traumatic Event by SAMHSA': survivorSupportPdf
   };
 
   const handleShowFeedback = (messageFeedback) => {
@@ -35,7 +44,7 @@ function ChatPage() {
   const renderSuggestions = () => (
     <div className="w-full sm-0">
       {suggestions.map((suggestion, index) => (
-        <p key={index} className="text-white text-lg mb-2">
+        <p key={index} className="text-white text-md mb-2">
           {suggestion.trim()}
         </p>
       ))}
@@ -183,15 +192,22 @@ function ChatPage() {
             )}
           </div>
           <div className="mt-auto">
-            <div className="flex items-center mt-4 space-x-4">
-              <input
-                type="text"
-                placeholder="Message Elma..."
-                className="bg-secondaryPurple w-full p-4 rounded-full focus:outline-none"
-              />
-              <button onClick={handleMicClick} className="bg-secondaryPurple p-3 rounded-full">
-                {isRecording ? '⏹️' : '🎤'}
+            <div className="flex justify-center items-center mt-4 space-x-4">
+              <div className={`${styles.bars} ${isRecording ? styles.barsPlaying : ''}`}>
+                <div className={styles.bar}></div>
+                <div className={styles.bar}></div>
+                <div className={styles.bar}></div>
+                <div className={styles.bar}></div>
+              </div>
+              <button onClick={handleMicClick} className="bg-quaternaryPurple p-3 rounded-full">
+                {isRecording ? '⏹️' : '🎙️'}
               </button>
+              <div className={`${styles.bars} ${isRecording ? styles.barsPlaying : ''}`}>
+                <div className={styles.bar}></div>
+                <div className={styles.bar}></div>
+                <div className={styles.bar}></div>
+                <div className={styles.bar}></div>
+              </div>
             </div>
           </div>
         </div>
@@ -206,8 +222,8 @@ function ChatPage() {
             <p>{feedbackMessage}</p>
           </div> */}
           {renderSuggestions()}
-            <p className="text-xs text-purple-400 ml-4">
-            <div class="text-xs text-purple-400 ml-4" id="sources-container"></div>
+            <p className="text-xs text-purple-400 ">
+            <div class="text-xs text-purple-400" id="sources-container"></div>
 
             <div>
               {renderSources()}

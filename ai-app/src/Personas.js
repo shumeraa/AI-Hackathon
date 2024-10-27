@@ -25,10 +25,10 @@ function Personas() {
               className="w-44 h-44 rounded-lg"
             />
             <div className="text-white text-lg">
-              Wilma Wildfire
+              Wendy Wildfire
             </div>
             <div className="text-gray-400 text-xs max-w-52 fade-in-top-2">
-              Wilma lived in central California for 40 years before her beloved home was burnt to a crisp by a wildfire. Any help is welcome.
+              Wendy lived in central California for 40 years before her beloved home was burnt to a crisp by a wildfire. Any help is welcome.
             </div>
             <Button text="Start Chatting" />
           </div>
@@ -42,7 +42,7 @@ function Personas() {
               Elma Earthquake
             </div>
             <div className="text-gray-400 text-xs max-w-52 fade-in-top-2">
-              Elma is a student at UC Berkeley and her home has been destroyed by an earthquake. Please try and comfort her.
+              Elma is a mother of two and her home has been destroyed by an earthquake. Please try and comfort her.
             </div>
             <Button text="Start Chatting" link="/Chat" />
           </div>
@@ -56,7 +56,7 @@ function Personas() {
               Harry Hurricane
             </div>
             <div className="text-gray-400 text-xs max-w-52 fade-in-top-2">
-              Harry was forced to leave behind his dog after hurriedly evacuating hurricane and feels very guilty. Help him to navigate his emotions.
+              Harry was forced to leave everything behind except his dog in the wake of a hurricane. Help him to navigate his emotions.
             </div>
             <Button text="Start Chatting" />
           </div>
