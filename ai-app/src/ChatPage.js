@@ -107,7 +107,7 @@ function ChatPage() {
 
         {/* Chat Section */}
         <div className="mt-4 flex flex-col w-3/4 p-8">
-          <div className="mx-auto flex-col items-center space-x-4 mb-6">
+          <div className="mx-auto flex-col items-center mb-6">
             <img
               src={Sally}
               alt="Sally Earthquake"
@@ -148,7 +148,7 @@ function ChatPage() {
         </div>
 
         {/* Feedback Section */}
-        <div className="w-1/4 bg-secondaryPurple p-6 flex flex-col rounded-lg m-4">
+        <div className="w-1/4 bg-secondaryPurple p-6 flex flex-col rounded-lg m-4 sticky top-0 h-fit">
           <h2 className="text-xl font-bold my-4">Your AI Feedback</h2>          
 
           <div className="text-sm space-y-2">
@@ -157,6 +157,9 @@ function ChatPage() {
               <p>{feedbackMessage}</p>
             </div>
           </div>
+            <p className="text-xs text-purple-400">
+              Source: Natural Disaster Guide p. 6, p. 17
+            </p>
 
           <button className="bg-red-600 text-white py-2 mt-auto rounded-full">
             End Conversation
