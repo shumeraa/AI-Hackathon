@@ -15,6 +15,7 @@ import wavio
 import tempfile
 from openai import OpenAI
 from flask_cors import CORS
+import re
 
 app = Flask(__name__)
 CORS(app)
@@ -128,6 +129,8 @@ def process_audio():
         audio_base64 = base64.b64encode(audio_data).decode("utf-8")
 
         advice_response, sources = get_advice(transcribed_text)
+
+        print(advice_response)
 
         # Return the generated text and the audio data
         return jsonify({"transcription": transcribed_text, "response": generated_text, "audio": audio_base64, "advice_response": advice_response, "sources": sources}), 200
@@ -296,8 +299,9 @@ def get_advice(transcribed_text):
         def format_input(messages, documents):
             grounding = "\n".join(documents)
             system = f"""<|system|>
-            Produce a list only. The text provided supporting a victim of a natural disaster, explain what the text can do better in a list of three bullet points and output NOTHING ELSE. Do not ask for additional information.
-    """
+                         The input is from a medical professional in training to a victim of a natural disaster. Do not directly answer the input, but provide advice based on documents about how the medical professional (input) can improve. Be extremely direct and even harsh and critical at the medical proffesional. Create exactly three bullet points, each with a suggestion and a newline after each for formatting. Do not ask for additional information. Limit each suggestion to 15 words. Perform semantic analysis on the input and highlight any strong emotions that the medical professional may be protraying. Add newlines after each period. Example (Do not repeat this example but write answers in a similar style but more specifically about the topic from key words from the input): 1. The <noun similar to medical proffesional> can <verb> the conversation by <verb> specific issues the <similar terms to victim> is facing and <further suggestion>.
+
+                """
             messages_section = []
 
             for index,value in enumerate(messages, start=0):
@@ -322,7 +326,7 @@ def get_advice(transcribed_text):
                 messages_section.append(formatted_entry)
 
             messages_section = "".join(messages_section)
-            prompt = f"""{system}{messages_section}<|assistant|>
+            prompt = f"""{system}{messages_section}<|assistant|> Only output a short list. You only give advice relating closely to the topics they stated and nothing else. This list is advice related to helping the medical proffesional effectively talking to a victim who's goal is to overcome a natural disaster. Provide advice that improves what the medical proffesional said. Do not ask any questions back, you only give advice about what the medical professional can improve on when talking to the victim. You must give three sugesstions on how to be a better volunteer and nothing else.
     """
             return prompt
         
@@ -332,7 +336,7 @@ def get_advice(transcribed_text):
             parameters = {
                 "decoding_method": "greedy",
                 "max_new_tokens": 900,
-                "repetition_penalty": 1.05
+                "repetition_penalty": 1.05,
             }
             inference_credentials = {
                 "url": wml_credentials.get("url"),
@@ -344,8 +348,11 @@ def get_advice(transcribed_text):
                 credentials = inference_credentials,
                 space_id = params["space_id"]
             )
+
             # Generate grounded response
             generated_response = model.generate_text(prompt=prompt, guardrails=False)
+            print(generated_response)
+
             return generated_response
 
         def execute( payload ):
@@ -355,7 +362,7 @@ def get_advice(transcribed_text):
             # Proximity search
             search_result = proximity_search(messages[-1].get("content"))
             
-            # Grunded inferencing
+            # Grounded inferencing
             generated_response = inference_model(messages, search_result["documents"], access_token)
             
             execute_response = {
@@ -368,30 +375,12 @@ def get_advice(transcribed_text):
         return execute
 
     # Record audio from the microphone
-    duration = 10  # Duration in seconds
-    fs = 16000  # Sampling frequency
-    print("Recording...")
-    audio_data = sd.rec(int(duration * fs), samplerate=fs, channels=1, dtype='float32')
-    sd.wait()  # Wait until recording is finished
-    print("Recording finished.")
-
-    # Save the recorded audio to a temporary WAV file
-    with tempfile.NamedTemporaryFile(delete=False, suffix='.wav') as temp_file:
-        wavio.write(temp_file.name, audio_data, fs, sampwidth=3)
-        audio_path = temp_file.name
-
-
-    api_key_chat = os.getenv('OPENAI_API_KEY')
-
-    client_chat = OpenAI(api_key=api_key_chat)
-
-    # Process the audio transcription
-    with open(audio_path, "rb") as audio_file:
-        # Transcribe the audio
-        transcription = client_chat.audio.transcriptions.create(
-            model="whisper-1",
-            file=audio_file
-        )
+    # duration = 10  # Duration in seconds
+    # fs = 16000  # Sampling frequency
+    # print("Recording...")
+    # audio_data = sd.rec(int(duration * fs), samplerate=fs, channels=1, dtype='float32')
+    # sd.wait()  # Wait until recording is finished
+    # print("Recording finished.")
 
     # Initialize deployable chain function locally
 
@@ -424,6 +413,8 @@ def get_advice(transcribed_text):
         if title not in unique_titles:
             unique_titles.add(title)
             sources.append(title)
+
+    sources = [source[:-4] for source in sources]
 
     # Display the message and sources
     # print("AI Message:")
