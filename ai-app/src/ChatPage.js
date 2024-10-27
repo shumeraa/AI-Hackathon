@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import Elma from './assets/elma.png';
+import Avatar from './assets/elma.png';
 import AudioPlayer from './components/AudioPlayer';
 import ChatBotMessage from './components/ChatBotMessage';
 import UserMessage from './components/UserMessage';
@@ -166,7 +166,7 @@ function ChatPage() {
         <div className="mt-4 flex flex-col w-3/4 py-8 pl-4 pr-16 ">
           <div className="mx-auto flex-col items-center mb-6">
             <img
-              src={Elma}
+              src={Avatar}
               alt="Elma Earthquake"
               className="w-16 h-16 mx-auto rounded-full"
             />
@@ -180,6 +180,7 @@ function ChatPage() {
                   key={index}
                   message={message.text}
                   audioSrc={message.audioSrc}
+                  imageSrc={Avatar}
                 />
               ) : (
                 <UserMessage

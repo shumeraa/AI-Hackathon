@@ -1,14 +1,13 @@
 import React from 'react';
 import AudioPlayer from './AudioPlayer';
-import Elma from '../assets/elma.png';
 
-function ChatBotMessage({ message, audioSrc }) {
+function ChatBotMessage({ message, audioSrc, imageSrc}) {
   return (
     <div className="flex flex-col space-y-2">
       <div className="flex items-center space-x-2">
         <img
-          src={Elma}
-          alt="Elma Earthquake"
+          src={imageSrc}
+          alt="Chat Avatar"
           className="w-10 h-10 rounded-lg"
           style={{ filter: 'brightness(0.6)' }} 
         />
