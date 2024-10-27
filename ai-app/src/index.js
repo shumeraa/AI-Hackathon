@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './index.css';
 import App from './App';
-import ChatPage from './ChatPage';
+import ChatElma from './ChatPage';
+import ChatHarry from './ChatPageHarry';
+import ChatWendy from './ChatPageWendy';
 import Personas from './Personas';
 import reportWebVitals from './reportWebVitals';
 
@@ -12,7 +14,9 @@ root.render(
   <Router>
     <Routes>
       <Route path="/" element={<App />} />          {/* Landing page */}
-      <Route path="/Chat" element={<ChatPage />} />   {/* Chat page */}
+      <Route path="/ChatHarry" element={<ChatHarry />} />   {/* Chat with Wendy */}
+      <Route path="/ChatElma" element={<ChatElma />} />   {/* Chat with Elma */}
+      <Route path="/ChatWendy" element={<ChatWendy />} />   {/* Chat with Harry */}
       <Route path="/Personas" element={<Personas />} />   {/* Personas Page */}
     </Routes>
   </Router>

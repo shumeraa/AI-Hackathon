@@ -30,7 +30,7 @@ function Personas() {
             <div className="text-gray-400 text-xs max-w-52 fade-in-top-2">
               Wendy lived in central California for 40 years before her beloved home was burnt to a crisp by a wildfire. Any help is welcome.
             </div>
-            <Button text="Start Chatting" />
+            <Button text="Start Chatting" link="/ChatWendy"/>
           </div>
           <div className="mx-auto flex flex-col items-center">
             <img
@@ -44,7 +44,7 @@ function Personas() {
             <div className="text-gray-400 text-xs max-w-52 fade-in-top-2">
               Elma is a mother of two and her home has been destroyed by an earthquake. Please try and comfort her.
             </div>
-            <Button text="Start Chatting" link="/Chat" />
+            <Button text="Start Chatting" link="/ChatElma" />
           </div>
           <div className="mx-auto flex flex-col items-center">
             <img
@@ -58,7 +58,7 @@ function Personas() {
             <div className="text-gray-400 text-xs max-w-52 fade-in-top-2">
               Harry was forced to leave everything behind except his dog in the wake of a hurricane. Help him to navigate his emotions.
             </div>
-            <Button text="Start Chatting" />
+            <Button text="Start Chatting" link="/ChatHarry" />
           </div>
         </div>
       </div>
