@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import Sally from './assets/sally.png';
+import Elma from './assets/elma.png';
 import AudioPlayer from './components/AudioPlayer';
 import ChatBotMessage from './components/ChatBotMessage';
 import UserMessage from './components/UserMessage';
@@ -10,7 +10,7 @@ function ChatPage() {
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [feedbackMessage, setFeedbackMessage] = useState("Click on one of the feedback buttons under your messages to see AI feedback!");
   const [messages, setMessages] = useState([
-    { who: 'LLM', text: 'Hi I am Sally! I could really use some help right now.', audioSrc: null }
+    { who: 'LLM', text: 'Hi I am Elma! I could really use some help right now.', audioSrc: null }
   ]);
 
   const handleShowFeedback = (message) => {
@@ -98,7 +98,7 @@ function ChatPage() {
   };
 
   return (
-    <div>
+    <div className="fade-in-top">
       <div className="absolute gradientText text-2xl p-2">
         BeHeal
       </div>
@@ -109,11 +109,11 @@ function ChatPage() {
         <div className="mt-4 flex flex-col w-3/4 py-8 pl-4 pr-16 ">
           <div className="mx-auto flex-col items-center mb-6">
             <img
-              src={Sally}
-              alt="Sally Earthquake"
+              src={Elma}
+              alt="Elma Earthquake"
               className="w-16 h-16 mx-auto rounded-full"
             />
-            <div className="text-2xl">Sally Earthquake</div>
+            <div className="text-2xl">Elma Earthquake</div>
           </div>
 
           <div className="flex flex-col space-y-4">
@@ -138,7 +138,7 @@ function ChatPage() {
             <div className="flex items-center mt-4 space-x-4">
               <input
                 type="text"
-                placeholder="Message Sally..."
+                placeholder="Message Elma..."
                 className="bg-secondaryPurple w-full p-4 rounded-full focus:outline-none"
               />
               <button onClick={handleMicClick} className="bg-secondaryPurple p-3 rounded-full">
@@ -149,7 +149,7 @@ function ChatPage() {
         </div>
 
         {/* Feedback Section */}
-        <div className="w-1/4 bg-secondaryPurple p-6 flex my-2 flex-col rounded-lg sticky top-0 left" 
+        <div className="w-1/4 bg-secondaryPurple p-6 flex my-2 flex-col rounded-lg sticky top-0 left fade-in-top-2" 
           style={{ position: "fixed", height: "97%", left: "73%", width: "26%"}} >
           <h2 className="text-xl font-bold my-4">Your AI Feedback</h2>          
 
@@ -159,7 +159,7 @@ function ChatPage() {
               <p>{feedbackMessage}</p>
             </div>
             <p className="text-xs text-purple-400 ml-4">
-              Source: Natural Disaster Guide p. 6, p. 17
+              Source will appear here
             </p>
           </div>
 

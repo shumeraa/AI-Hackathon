@@ -1,14 +1,14 @@
 import React from 'react';
 import AudioPlayer from './AudioPlayer';
-import Sally from '../assets/sally.png';
+import Elma from '../assets/elma.png';
 
 function ChatBotMessage({ message, audioSrc }) {
   return (
     <div className="flex flex-col space-y-2">
       <div className="flex items-center space-x-2">
         <img
-          src={Sally}
-          alt="Sally Earthquake"
+          src={Elma}
+          alt="Elma Earthquake"
           className="w-10 h-10 rounded-lg"
           style={{ filter: 'brightness(0.6)' }} 
         />
